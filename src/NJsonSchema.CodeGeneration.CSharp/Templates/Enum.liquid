@@ -12,6 +12,11 @@
 {
 {%- for enum in Enums %}
 {%-   if IsStringEnum -%}
+{%-     if UseSystemTextJson %}
+#if NET9_0_OR_GREATER
+    [System.Text.Json.Serialization.JsonStringEnumMemberName(@"{{ enum.Value | replace: '"', '""' }}")]
+#endif
+{%-     endif %}
     [System.Runtime.Serialization.EnumMember(Value = @"{{ enum.Value | replace: '"', '""' }}")]
 {%-   endif -%}
 {%- template Enum.Member.Annotations -%}
